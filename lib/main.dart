@@ -3,7 +3,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-const int httpRequestTimeoutPeriod = 1; //Set Http Request Timeout (Second)
+const int httpRequestTimeoutPeriod = 10; //Set Http Request Timeout (Second)
 const String sUrlAuthority = 'www.reddit.com';
 const String sUrlPath = '/r/FlutterDev.json';
 
@@ -57,7 +57,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   dynamic _jsonResponse;
-  String sTitle = '', sSubTitle = '';
+  String sTitle = '', sSubTitle = '', sThumbnail = '';
+  double iThumbnailHeight = 0,  iThumbnailWidth = 0;
 
   void _readJsonFromReddit() async {
     var url = Uri.https(sUrlAuthority, sUrlPath);
@@ -134,11 +135,17 @@ class _MyHomePageState extends State<MyHomePage> {
               itemBuilder: (context, i) {
                 sTitle = _jsonResponse['data']['children'][i]['data']['title'];
                 sSubTitle = _jsonResponse['data']['children'][i]['data']['selftext'];
+                sThumbnail = _jsonResponse['data']['children'][i]['data']['thumbnail']??'';
+                sThumbnail = sThumbnail.startsWith('http')?sThumbnail:'';
+                iThumbnailHeight = (_jsonResponse['data']['children'][i]['data']['thumbnail_height']??0).toDouble();
+                iThumbnailWidth = (_jsonResponse['data']['children'][i]['data']['thumbnail_width']??0).toDouble();
+
                 return Column(
                   children: [
                     ListTile(
                         title: Text(sTitle),
-                        subtitle: Text(sSubTitle)
+                        subtitle: Text(sSubTitle),
+                      leading: sThumbnail!=''?Image.network(sThumbnail, height: iThumbnailHeight, width:iThumbnailWidth):null
                     ),
                     const Divider()
                   ],
