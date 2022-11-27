@@ -3,7 +3,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-const int httpRequestTimeoutPeriod = 10; //Set Http Request Timeout (Second)
+const int httpRequestTimeoutPeriod = 30; //Set Http Request Timeout (Second)
 const String sUrlAuthority = 'www.reddit.com';
 const String sUrlPath = '/r/FlutterDev.json';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Code Test',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Code Test - Retrieve Reddit Json'),
     );
   }
 }
